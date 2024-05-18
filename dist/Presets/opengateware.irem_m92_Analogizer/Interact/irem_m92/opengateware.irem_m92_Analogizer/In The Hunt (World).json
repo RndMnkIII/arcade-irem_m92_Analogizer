@@ -1,0 +1,387 @@
+{
+    "interact": {
+        "magic": "APF_VER_1",
+        "variables": [
+            {
+                "name": "Reset Core",
+                "id": 0,
+                "type": "action",
+                "enabled": true,
+                "address": "0xF0000000",
+                "value": 1
+            },
+            {
+                "name": "SNAC Adapter",
+                "id": 43,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xA0000000",
+                "defaultval": "0x00",
+                "mask": "0xFFFFFFE0",
+                "options": [
+                    {
+                    "value": "0x00",
+                    "name": "None"
+                    },
+                    {
+                    "value": "0x01",
+                    "name": "DB15 Normal"
+                    },
+                    {
+                    "value": "0x02",
+                    "name": "NES"
+                    },
+                    {
+                    "value": "0x03",
+                    "name": "SNES"
+                    },
+                    {
+                    "value": "0x04",
+                    "name": "PCE 2BTN"
+                    },
+                    {
+                    "value": "0x05",
+                    "name": "PCE 6BTN"
+                    },
+                    {
+                    "value": "0x06",
+                    "name": "PCE Multitap"
+                    },
+                    {
+                      "value": "0x09",
+                      "name": "DB15 Fast"
+                    },
+                    {
+                      "value": "0x0B",
+                      "name": "SNES A,B<->X,Y"
+                    }
+                ]
+            },
+            {
+                "name": "SNAC Controller Assignment",
+                "id": 44,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xA0000000",
+                "defaultval": "0x00",
+                "mask": "0xFFFFFC3F",
+                "options": [
+                    {
+                      "value": "0x0",
+                      "name": "SNAC -> P1"
+                    },
+                    {
+                      "value": "0x40",
+                      "name": "SNAC -> P2"
+                    },
+                    {
+                      "value": "0x80",
+                      "name": "SNAC P1,P2->P1,P2"
+                    },
+                    {
+                      "value": "0xC0",
+                      "name": "SNAC P1,P2->P2,P1"
+                    },
+                    {
+                      "value": "0x200",
+                      "name": "SNAC P1,P2->P3,P4"
+                    },
+                    {
+                      "value": "0x100",
+                      "name": "SNAC P1-P4->P1-P4"
+                    },
+                    {
+                      "value": "0x140",
+                      "name": "SNAC P1-P2->P1-P2"
+                    },
+                    {
+                      "value": "0x180",
+                      "name": "SNAC P1-P2->P3-P4"
+                    }
+                ]
+            },
+            {
+                "name": "Analogizer Video Out",
+                "id": 45,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xA0000000",
+                "defaultval": "0x0",
+                "mask": "0xFFFFC3FF",
+                "options": [
+                    {
+                      "value": "0x0",
+                      "name": "RGBS"
+                    },
+                    {
+                      "value": "0x0400",
+                      "name": "RGsB"
+                    },
+                    {
+                      "value": "0x0800",
+                      "name": "YPbPr"
+                    },
+                    {
+                      "value": "0x0C00",
+                      "name": "Y/C NTSC"
+                    },
+                    {
+                      "value": "0x1000",
+                      "name": "Y/C PAL60"
+                    },
+                    {
+                      "value": "0x1400",
+                      "name": "Scandoubler RGBHV"
+                    },
+                    {
+                      "value": "0x2000",
+                      "name": "RGBS,Pocket OFF"
+                    },
+                    {
+                      "value": "0x2400",
+                      "name": "RGsB,Pocket OFF"
+                    },
+                    {
+                      "value": "0x2800",
+                      "name": "YPbPr,Pocket OFF"
+                    },            
+                    {
+                      "value": "0x2C00",
+                      "name": "Y/C NTSC,Pocket OFF"
+                    },
+                    {
+                      "value": "0x3000",
+                      "name": "Y/C PAL60,Pocket OFF"
+                      },
+                    {
+                      "value": "0x3400",
+                      "name": "Scandoubler,Pocket OFF"
+                    }
+                ]
+            },
+            {
+                "name": "Lives",
+                "port": "DSW",
+                "id": 1,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xF1000000",
+                "defaultval": 0,
+                "mask": "0xFFFFFFFC",
+                "options": [
+                    {
+                        "name": "3",
+                        "value": "0x00000000"
+                    },
+                    {
+                        "name": "2",
+                        "value": "0x00000001"
+                    },
+                    {
+                        "name": "4",
+                        "value": "0x00000002"
+                    },
+                    {
+                        "name": "5",
+                        "value": "0x00000003"
+                    }
+                ]
+            },
+            {
+                "name": "Difficulty",
+                "port": "DSW",
+                "id": 2,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xF1000000",
+                "defaultval": 0,
+                "mask": "0xFFFFFFF3",
+                "options": [
+                    {
+                        "name": "Normal",
+                        "value": "0x00000000"
+                    },
+                    {
+                        "name": "Easy",
+                        "value": "0x00000004"
+                    },
+                    {
+                        "name": "Hard",
+                        "value": "0x00000008"
+                    },
+                    {
+                        "name": "Very Easy",
+                        "value": "0x0000000C"
+                    }
+                ]
+            },
+            {
+                "name": "Start Button",
+                "port": "DSW",
+                "id": 3,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xF1000000",
+                "defaultval": 0,
+                "mask": "0xFFFFFFDF",
+                "options": [
+                    {
+                        "name": "Start",
+                        "value": "0x00000000"
+                    },
+                    {
+                        "name": "Any",
+                        "value": "0x00000020"
+                    }
+                ]
+            },
+            {
+                "name": "Demo Sounds",
+                "port": "DSW",
+                "id": 4,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xF1000000",
+                "defaultval": 0,
+                "mask": "0xFFFFFFBF",
+                "options": [
+                    {
+                        "name": "Off",
+                        "value": "0x00000000"
+                    },
+                    {
+                        "name": "On",
+                        "value": "0x00000040"
+                    }
+                ]
+            },
+            {
+                "name": "Service Mode",
+                "port": "DSW",
+                "id": 5,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xF1000000",
+                "defaultval": 0,
+                "mask": "0xFFFFFF7F",
+                "options": [
+                    {
+                        "name": "Off",
+                        "value": "0x00000000"
+                    },
+                    {
+                        "name": "On",
+                        "value": "0x00000080"
+                    }
+                ]
+            },
+            {
+                "name": "Flip Screen",
+                "port": "DSW",
+                "id": 6,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xF1000000",
+                "defaultval": 0,
+                "mask": "0xFFFFFEFF",
+                "options": [
+                    {
+                        "name": "Off",
+                        "value": "0x00000000"
+                    },
+                    {
+                        "name": "On",
+                        "value": "0x00000100"
+                    }
+                ]
+            },
+            {
+                "name": "Coin Mode",
+                "port": "DSW",
+                "id": 7,
+                "type": "list",
+                "enabled": true,
+                "persist": true,
+                "address": "0xF1000000",
+                "defaultval": 0,
+                "mask": "0xFFFF0FFF",
+                "options": [
+                    {
+                        "name": "1C/1C",
+                        "value": "0x00000000"
+                    },
+                    {
+                        "name": "2C/1C",
+                        "value": "0x00001000"
+                    },
+                    {
+                        "name": "3C/1C",
+                        "value": "0x00002000"
+                    },
+                    {
+                        "name": "4C/1C",
+                        "value": "0x00003000"
+                    },
+                    {
+                        "name": "5C/1C",
+                        "value": "0x00004000"
+                    },
+                    {
+                        "name": "6C/1C",
+                        "value": "0x00005000"
+                    },
+                    {
+                        "name": "1C/2C",
+                        "value": "0x00006000"
+                    },
+                    {
+                        "name": "1C/3C",
+                        "value": "0x00007000"
+                    },
+                    {
+                        "name": "1C/4C",
+                        "value": "0x00008000"
+                    },
+                    {
+                        "name": "1C/5C",
+                        "value": "0x00009000"
+                    },
+                    {
+                        "name": "1C/6C",
+                        "value": "0x0000A000"
+                    },
+                    {
+                        "name": "2C/3C",
+                        "value": "0x0000B000"
+                    },
+                    {
+                        "name": "3C/2C",
+                        "value": "0x0000C000"
+                    },
+                    {
+                        "name": "4C/3C",
+                        "value": "0x0000D000"
+                    },
+                    {
+                        "name": "2S/1C",
+                        "value": "0x0000E000"
+                    },
+                    {
+                        "name": "Free Play",
+                        "value": "0x0000F000"
+                    }
+                ]
+            }
+        ],
+        "messages": []
+    }
+}

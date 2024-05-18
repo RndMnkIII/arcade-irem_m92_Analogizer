@@ -49,7 +49,7 @@ module core_top
          parameter BPP_B          = 8,     //! Bits Per Pixel Blue
          parameter USE_INTERLACED = 0,     //! Enable Interlaced Video Support
          parameter USE_VBL        = 0,     //! Capture and Use VBlank value at HSync
-         parameter USE_ANALOGIZER = 0,     //! Enable Support for Analogizer
+         parameter USE_ANALOGIZER = 1,     //! Enable Support for Analogizer
          // Audio
          parameter AUDIO_DW       = 16,    //! Audio Bits
          parameter AUDIO_S        = 1,     //! Signed Audio
@@ -725,9 +725,9 @@ module core_top
         .field                    ( field                    ), // [i]
         .interlaced               ( interlaced               ), // [i]
         // Input Video from Core
-        .core_r                   ( core_r                   ), // [i]
-        .core_g                   ( core_g                   ), // [i]
-        .core_b                   ( core_b                   ), // [i]
+        .core_r                   ( video_rgb_pocket[23:16]  ), // [i]
+        .core_g                   ( video_rgb_pocket[15:8]   ), // [i]
+        .core_b                   ( video_rgb_pocket[7:0]    ), // [i]
         .core_hs                  ( core_hs                  ), // [i]
         .core_vs                  ( core_vs                  ), // [i]
         .core_hb                  ( core_hb                  ), // [i]
@@ -835,14 +835,15 @@ module core_top
     wire m_btn1,   m_btn2,  m_btn3, m_btn4;
     wire m_btn5,   m_btn6,  m_btn7, m_btn8;
 
+    // clk_sys = 40MHz, clk_vid = 6.666666MHz, clk_sys / clk_vid = 6
     gamepad #(.JOY_PADS(JOY_PADS),.JOY_ALT(JOY_ALT)) u_pocket_gamepad
     (
         .clk_sys   ( clk_sys   ),
         // Pocket PAD Interface
-        .cont1_key ( cont1_key ), .cont1_joy ( cont1_joy ), // [i]
-        .cont2_key ( cont2_key ), .cont2_joy ( cont2_joy ), // [i]
-        .cont3_key ( cont3_key ), .cont3_joy ( cont3_joy ), // [i]
-        .cont4_key ( cont4_key ), .cont4_joy ( cont4_joy ), // [i]
+        .cont1_key ( p1_controls ), .cont1_joy ( cont1_joy ), // [i]
+        .cont2_key ( p2_controls ), .cont2_joy ( cont2_joy ), // [i]
+        .cont3_key ( p3_controls ), .cont3_joy ( cont3_joy ), // [i]
+        .cont4_key ( p4_controls ), .cont4_joy ( cont4_joy ), // [i]
         // Input DIP Switches
         .inp_sw0   ( inp_sw0   ), .inp_sw1   ( inp_sw1   ), // [i]
         .inp_sw2   ( inp_sw2   ), .inp_sw3   ( inp_sw3   ), // [i]
@@ -959,6 +960,185 @@ module core_top
     //     .hs_configured            ( hs_configured            ), // [o]
     //     .hs_pause                 ( pause_req                )  // [o] Pause core CPU to prepare for/relax after RAM access
     // );
+
+  /*[ANALOGIZER_HOOK_BEGIN]*/
+  //Pocket Menu settings
+//analogizer_sw
+  always @(*) begin
+    snac_game_cont_type   = analogizer_sw[4:0];
+    snac_cont_assignment  = analogizer_sw[9:6];
+    analogizer_video_type = analogizer_sw[13:10];
+  end
+
+  //*** Analogizer Interface V1.1 ***
+  reg analogizer_ena;
+  reg [4:0] snac_game_cont_type;
+  reg [3:0] snac_cont_assignment;
+  reg [3:0] analogizer_video_type;
+  
+  //switch between Analogizer SNAC and Pocket Controls for P1-P4 (P3,P4 when uses PCEngine Multitap)
+  wire [15:0] p1_btn, p2_btn, p3_btn, p4_btn;
+  reg [15:0] p1_controls, p2_controls, p3_controls, p4_controls;
+  //reg [15:0] p1_stick, p2_stick, p3_stick, p4_stick;
+
+  always @(posedge clk_sys) begin
+    if(snac_game_cont_type == 5'h0) begin //SNAC is disabled
+                  p1_controls <= cont1_key;
+                  p2_controls <= cont2_key;
+                  p3_controls <= cont3_key;
+                  p4_controls <= cont4_key;
+    end
+    else begin
+      case(snac_cont_assignment)
+      4'h0:    begin 
+                  p1_controls <= p1_btn;
+                  p2_controls <= cont2_key;
+                  p3_controls <= cont3_key;
+                  p4_controls <= cont4_key;
+                end
+      4'h1:    begin 
+                  p1_controls <= cont1_key;
+                  p2_controls <= p1_btn;
+                  p3_controls <= cont3_key;
+                  p4_controls <= cont4_key;
+                end
+      4'h2:    begin
+                  p1_controls <= p1_btn;
+                  p2_controls <= p2_btn;
+                  p3_controls <= cont3_key;
+                  p4_controls <= cont4_key;
+                end
+      4'h3:    begin
+                  p1_controls <= p2_btn;
+                  p2_controls <= p1_btn;
+                  p3_controls <= cont3_key;
+                  p4_controls <= cont4_key;
+                end
+      4'h4:    begin
+                  p1_controls <= p1_btn;
+                  p2_controls <= p2_btn;
+                  p3_controls <= p3_btn;
+                  p4_controls <= p4_btn;
+                end
+      4'h5:    begin
+                  p1_controls <= p4_btn;
+                  p2_controls <= p3_btn;
+                  p3_controls <= p2_btn;
+                  p4_controls <= p1_btn;
+                end
+      4'h6:    begin
+                  p1_controls <= cont1_key;
+                  p2_controls <= cont2_key;
+                  p3_controls <= p1_btn;
+                  p4_controls <= p2_btn;
+                end
+      default: begin
+                  p1_controls <= cont1_key;
+                  p2_controls <= cont2_key;
+                  p3_controls <= cont3_key;
+                  p4_controls <= cont4_key;
+                end
+      endcase
+    end
+  end
+
+  wire SYNC = ~^{core_hs, core_vs};
+  wire  ANALOGIZER_DE = ~(core_hb || core_vb);
+
+  //create aditional switch to blank Pocket screen.
+  wire [23:0] video_rgb_pocket;
+  assign video_rgb_pocket = (analogizer_video_type[3]) ? 24'h000000: {core_r,core_g,core_b};
+  
+ // SET PAL and NTSC TIMING and pass through status bits. ** YC must be enabled in the qsf file **
+wire [39:0] CHROMA_PHASE_INC;
+wire [26:0] COLORBURST_RANGE;
+wire [4:0] CHROMA_ADD;
+wire [4:0] CHROMA_MULT;
+wire YC_EN;
+wire PALFLAG;
+
+	parameter NTSC_REF = 3.579545;   
+	parameter PAL_REF = 4.43361875;
+	// Colorburst Lenth Calculation to send to Y/C Module, based on the CLK_VIDEO of the core
+	localparam [6:0] COLORBURST_START = (3.7 * (CLK_VIDEO_NTSC/NTSC_REF));
+	localparam [9:0] COLORBURST_NTSC_END = (9 * (CLK_VIDEO_NTSC/NTSC_REF)) + COLORBURST_START;
+	localparam [9:0] COLORBURST_PAL_END = (10 * (CLK_VIDEO_PAL/PAL_REF)) + COLORBURST_START;
+ 
+	// Parameters to be modifed
+    parameter CLK_VIDEO_NTSC = 40.000000; // Must be filled E.g XX.X Hz - CLK_VIDEO
+	parameter CLK_VIDEO_PAL =  40.000000; // Must be filled E.g XX.X Hz - CLK_VIDEO
+	localparam [39:0] NTSC_PHASE_INC = 40'd98393783741; // ((NTSC_REF**2^40) / CLK_VIDEO_NTSC)
+	localparam [39:0] PAL_PHASE_INC = 40'd121870384219; // ((PAL_REF*2^40) / CLK_VIDEO_PAL)
+
+	// Send Parameters to Y/C Module
+	assign CHROMA_PHASE_INC = NTSC_PHASE_INC; 
+	assign PALFLAG = (analogizer_video_type == 4'h4) || (analogizer_video_type == 4'hC); 
+    assign CHROMA_ADD = 5'd0; //yc_chroma_add_s;
+    assign CHROMA_MULT = 5'd0; //yc_chroma_mult_s;
+ 	assign COLORBURST_RANGE = {COLORBURST_START, COLORBURST_NTSC_END, COLORBURST_PAL_END}; // Pass colorburst length
+ 
+    //40_000_000
+    openFPGA_Pocket_Analogizer #(.MASTER_CLK_FREQ(40_000_000)) analogizer (
+        .i_clk(clk_sys),
+        .i_rst(reset_sw), //i_rst is active high
+        .i_ena(1'b1),
+        //Video interface
+        .analog_video_type(analogizer_video_type),
+        .R(core_r),
+        .G(core_g),
+        .B(core_b),
+        .Hblank(core_hb),
+        .Vblank(core_vb),
+        .BLANKn(ANALOGIZER_DE),
+        .Csync(SYNC), //composite SYNC on HSync.
+        .Hsync(core_hs),
+        .Vsync(core_vs),
+        .video_clk(clk_sys), //clk_vid
+        //Video Y/C Encoder interface
+        .PALFLAG(PALFLAG),
+        //.CVBS(yc_cvbs_s),
+        .MULFLAG(1'b0),
+        .CHROMA_ADD(CHROMA_ADD),
+        .CHROMA_MULT(CHROMA_MULT),
+        .CHROMA_PHASE_INC(CHROMA_PHASE_INC),
+        .COLORBURST_RANGE(COLORBURST_RANGE),
+        //Video SVGA Scandoubler interface
+        .ce_divider(3'd7), //div4
+        //SNAC interface
+        .conf_AB((snac_game_cont_type >= 5'd16)),              //0 conf. A(default), 1 conf. B (see graph above)
+        .game_cont_type(snac_game_cont_type), //0-15 Conf. A, 16-31 Conf. B
+        .p1_btn_state(p1_btn),
+        .p2_btn_state(p2_btn),  
+        .p3_btn_state(p3_btn),
+        .p4_btn_state(p4_btn),  
+        //Pocket Analogizer IO interface to the Pocket cartridge port
+        .cart_tran_bank2(cart_tran_bank2),
+        .cart_tran_bank2_dir(cart_tran_bank2_dir),
+        .cart_tran_bank3(cart_tran_bank3),
+        .cart_tran_bank3_dir(cart_tran_bank3_dir),
+        .cart_tran_bank1(cart_tran_bank1),
+        .cart_tran_bank1_dir(cart_tran_bank1_dir),
+        .cart_tran_bank0(cart_tran_bank0),
+        .cart_tran_bank0_dir(cart_tran_bank0_dir),
+        .cart_tran_pin30(cart_tran_pin30),
+        .cart_tran_pin30_dir(cart_tran_pin30_dir),
+        .cart_pin30_pwroff_reset(cart_pin30_pwroff_reset),
+        .cart_tran_pin31(cart_tran_pin31),
+        .cart_tran_pin31_dir(cart_tran_pin31_dir),
+        //debug
+        .o_stb()
+    );
+/*[ANALOGIZER_HOOK_END]*/
+
+        // .core_r                   ( core_r                   ), // [i]
+        // .core_g                   ( core_g                   ), // [i]
+        // .core_b                   ( core_b                   ), // [i]
+        // .core_hs                  ( core_hs                  ), // [i]
+        // .core_vs                  ( core_vs                  ), // [i]
+        // .core_hb                  ( core_hb                  ), // [i]
+        // .core_vb                  ( core_vb  
+
+
 
     //! ------------------------------------------------------------------------
     //! Clocks

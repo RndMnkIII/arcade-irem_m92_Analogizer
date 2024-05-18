@@ -10,7 +10,7 @@
 # Project-Wide Assignments
 # ==============================================================================
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 17.0.0
-set_global_assignment -name LAST_QUARTUS_VERSION "17.1.0 Standard Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Standard Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name TOP_LEVEL_ENTITY apf_top
 
@@ -54,19 +54,14 @@ set_global_assignment -name ROUTER_LCELL_INSERTION_AND_LOGIC_DUPLICATION ON
 # ==============================================================================
 # Pin & Location Assignments
 # ==============================================================================
-set_global_assignment -name SOURCE_TCL_SCRIPT_FILE ../platform/pocket/bsp/pocket/sys_assign.tcl
 
 # ==============================================================================
 # Platform Modules, Constrains and Chain Description File
 # ==============================================================================
-set_global_assignment -name QIP_FILE irem_m92_pocket.qip
-set_global_assignment -name SDC_FILE irem_m92_pocket.sdc
-set_global_assignment -name CDF_FILE irem_m92_pocket.cdf
 
 # ==============================================================================
 # Core RTL Assignments
 # ==============================================================================
-set_global_assignment -name QIP_FILE ../rtl/index.qip
 
 set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS ON
 set_global_assignment -name ALLOW_SYNCH_CTRL_USAGE ON
@@ -90,4 +85,72 @@ set_global_assignment -name AUTO_RESOURCE_SHARING ON
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name QIP_FILE ../analogizer/analogizer.qip
+set_global_assignment -name SOURCE_TCL_SCRIPT_FILE ../platform/pocket/bsp/pocket/sys_assign.tcl
+set_global_assignment -name SOURCE_TCL_SCRIPT_FILE ../platform/pocket/bsp/setup.tcl -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/bsp/pocket/apf_top.sv -library framework
+set_global_assignment -name SDC_FILE ../platform/pocket/bsp/pocket/sys_constr.sdc -library framework
+set_global_assignment -name SOURCE_TCL_SCRIPT_FILE ../platform/pocket/pkgIndex.tcl -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/audio_fifo.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/audio_mixer.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/pocket_i2s.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/filters/arcade_filters.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/filters/audio_filters.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/filters/audio_mix.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/filters/dc_blocker.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/filters/filters_rom.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/filters/filter_loader.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/filters/iir_filter.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/audio/filters/iir_filter_tap.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/video/rgb2grayscale.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/video/scanlines.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/video/scanlines_generator.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/video/shadowmask.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/video/sync_fix.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/video/video_cleaner.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/video/video_mixer.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/analog2dpad.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/data_loader.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/data_unloader.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/gamepad.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/interact.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/joypad.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/mame_keymap.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/mame_keymap_f.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/pause_crtl.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/usb_mouse.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/keyboard/apf2hid.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/keyboard/hid2ps2_key.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/keyboard/hid2ps2_mod.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/keyboard/kb_fifo.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/keyboard/key_arbiter.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/keyboard/key_ctl.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/keyboard/key_mgr.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/interface/keyboard/usb_keyboard.sv -library framework
+set_global_assignment -name VERILOG_FILE ../platform/pocket/megafunctions/mf_audio_pll.v -library framework
+set_global_assignment -name VERILOG_FILE ../platform/pocket/megafunctions/mf_datatable.v -library framework
+set_global_assignment -name VERILOG_FILE ../platform/pocket/megafunctions/mf_ddio_bidir_12.v -library framework
+set_global_assignment -name QIP_FILE ../platform/pocket/megafunctions/mf_audio_pll.qip -library framework
+set_global_assignment -name QIP_FILE ../platform/pocket/megafunctions/mf_datatable.qip -library framework
+set_global_assignment -name QIP_FILE ../platform/pocket/megafunctions/mf_ddio_bidir_12.qip -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/memory/dpram_hs.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/memory/spram_hs.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/memory/sram_async.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/peripherals/core_bridge_cmd.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/peripherals/io_bridge_peripheral.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/peripherals/io_pad_controller.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/support/autofire.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/support/data_io.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/support/hiscore.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/support/hiscore_io.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/support/nvram.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/support/save_io.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/helpers/synch_2.sv -library framework
+set_global_assignment -name SYSTEMVERILOG_FILE ../platform/pocket/helpers/synch_3.sv -library framework
+set_global_assignment -name QIP_FILE ../target/pocket/core.qip -library framework
+set_global_assignment -name SOURCE_TCL_SCRIPT_FILE ../platform/pocket/bsp/pocket/pinouts/system.tcl -library framework
+set_global_assignment -name QIP_FILE irem_m92_pocket.qip
+set_global_assignment -name SDC_FILE irem_m92_pocket.sdc
+set_global_assignment -name CDF_FILE irem_m92_pocket.cdf
+set_global_assignment -name QIP_FILE ../rtl/index.qip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
