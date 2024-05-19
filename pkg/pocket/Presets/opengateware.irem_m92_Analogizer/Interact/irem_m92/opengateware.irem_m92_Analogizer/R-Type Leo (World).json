@@ -129,10 +129,6 @@
                       "name": "Y/C NTSC"
                     },
                     {
-                      "value": "0x1000",
-                      "name": "Y/C PAL60"
-                    },
-                    {
                       "value": "0x1400",
                       "name": "Scandoubler RGBHV"
                     },
@@ -152,10 +148,6 @@
                       "value": "0x2C00",
                       "name": "Y/C NTSC,Pocket OFF"
                     },
-                    {
-                      "value": "0x3000",
-                      "name": "Y/C PAL60,Pocket OFF"
-                      },
                     {
                       "value": "0x3400",
                       "name": "Scandoubler,Pocket OFF"
@@ -259,27 +251,6 @@
                     {
                         "name": "On",
                         "value": "0x00000040"
-                    }
-                ]
-            },
-            {
-                "name": "Service Mode",
-                "port": "DSW",
-                "id": 5,
-                "type": "list",
-                "enabled": true,
-                "persist": true,
-                "address": "0xF1000000",
-                "defaultval": 0,
-                "mask": "0xFFFFFF7F",
-                "options": [
-                    {
-                        "name": "Off",
-                        "value": "0x00000000"
-                    },
-                    {
-                        "name": "On",
-                        "value": "0x00000080"
                     }
                 ]
             },

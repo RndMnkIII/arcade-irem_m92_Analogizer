@@ -1103,8 +1103,7 @@ wire PALFLAG;
         .CHROMA_PHASE_INC(CHROMA_PHASE_INC),
         .COLORBURST_RANGE(COLORBURST_RANGE),
         //Video SVGA Scandoubler interface
-        .ce_divider(3'd7), //div4
-        //SNAC interface
+        .ce_divider(3'd4), 
         .conf_AB((snac_game_cont_type >= 5'd16)),              //0 conf. A(default), 1 conf. B (see graph above)
         .game_cont_type(snac_game_cont_type), //0-15 Conf. A, 16-31 Conf. B
         .p1_btn_state(p1_btn),
@@ -1176,6 +1175,15 @@ wire PALFLAG;
     //! ------------------------------------------------------------------------
     //! @ IP Core RTL
     //! ------------------------------------------------------------------------
+
+    //[[ ANALOGIZER HOOK START]]
+    //Implement service mode on core start detecting pressing SEL+START
+    reg srv_mode = 1'b0;
+    always @(posedge clk_sys) begin
+        if(reset_sw)                   srv_mode <= 1'b0;
+        else if(p1_select && p1_start) srv_mode <= 1'b1;
+    end
+       //[[ ANALOGIZER HOOK END]]
     irem_m92 u_irem_m92_top
     (
         .clk_sys          ( clk_sys           ), // [i]
@@ -1186,7 +1194,7 @@ wire PALFLAG;
         .pause            ( pause_core        ), // [i]
 
         .mod_sw           ( mod_sw0           ), // [i]
-        .dsw_1            ( dip_sw0           ), // [i]
+        .dsw_1            ( dip_sw0 & {srv_mode,7'b0000000}), // [i]
         .dsw_2            ( dip_sw1           ), // [i]
         .dsw_3            ( dip_sw2           ), // [i]
 

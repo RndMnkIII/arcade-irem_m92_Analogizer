@@ -276,6 +276,20 @@ module openFPGA_Pocket_Analogizer #(parameter MASTER_CLK_FREQ=50_000_000) (
 	// 		delayed_hsync[1] <= delayed_hsync[0];
 	// 	end
 	// end
+	// reg [2:0] cediv;
+	// always @(posedge i_clk) begin
+	// 	case (p1_btn_state[9:4]) 
+	// 	  6'b000000: cediv <= 3'd1;
+	// 	  6'b000001: cediv <= 3'd2;
+	// 	  6'b000010: cediv <= 3'd3;
+	// 	  6'b000100: cediv <= 3'd4;
+	//       6'b001000: cediv <= 3'd5;
+	// 	  6'b010000: cediv <= 3'd6;
+	//       6'b100000: cediv <= 3'd7;
+
+	// 	endcase
+	// end
+
 	scandoubler sc_video
 	(
 		// system interface
@@ -284,7 +298,7 @@ module openFPGA_Pocket_Analogizer #(parameter MASTER_CLK_FREQ=50_000_000) (
 
 		// Pixelclock
 		.ce_divider(ce_divider), // 0 - clk_sys/4, 1 - clk_sys/2, 2 - clk_sys/3, 3 - clk_sys/4, etc.
-		//.ce_divider(3'd0), // 0 - clk_sys/4, 1 - clk_sys/2, 2 - clk_sys/3, 3 - clk_sys/4, etc.
+		//.ce_divider(cediv), // 0 - clk_sys/4, 1 - clk_sys/2, 2 - clk_sys/3, 3 - clk_sys/4, etc.
 		.pixel_ena(), //output
 		.scanlines(2'd2), // scanlines (00-none 01-25% 10-50% 11-75%)
 
