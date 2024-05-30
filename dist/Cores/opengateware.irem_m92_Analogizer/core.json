@@ -9,8 +9,8 @@
             "description": "[Analogizer] Irem M-92 Arcade Compatible Gateware IP Core",
             "author": "opengateware",
             "url": "https://github.com/RndMnkIII/arcade-irem_m92_Analogizer",
-            "version": "1.0.0",
-            "date_release": "2024-05-19"
+            "version": "1.0.1",
+            "date_release": "2024-05-30"
         },
         "framework": {
             "target_product": "Analogue Pocket",

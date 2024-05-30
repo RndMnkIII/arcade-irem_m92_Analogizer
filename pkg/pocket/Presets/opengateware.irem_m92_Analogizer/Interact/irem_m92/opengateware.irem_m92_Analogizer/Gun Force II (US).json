@@ -255,27 +255,6 @@
                 ]
             },
             {
-                "name": "Service Mode",
-                "port": "DSW",
-                "id": 5,
-                "type": "list",
-                "enabled": true,
-                "persist": true,
-                "address": "0xF1000000",
-                "defaultval": 0,
-                "mask": "0xFFFFFF7F",
-                "options": [
-                    {
-                        "name": "Off",
-                        "value": "0x00000000"
-                    },
-                    {
-                        "name": "On",
-                        "value": "0x00000080"
-                    }
-                ]
-            },
-            {
                 "name": "Flip Screen",
                 "port": "DSW",
                 "id": 6,

@@ -1093,6 +1093,7 @@ wire PALFLAG;
         .Csync(SYNC), //composite SYNC on HSync.
         .Hsync(core_hs),
         .Vsync(core_vs),
+        // .video_clk(clk_vid), //clk_vid
         .video_clk(clk_sys), //clk_vid
         //Video Y/C Encoder interface
         .PALFLAG(PALFLAG),

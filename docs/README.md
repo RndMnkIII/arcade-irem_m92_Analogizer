@@ -11,6 +11,7 @@
 
 # Irem M92 Compatible Gateware IP Core with support for Analogizer-FPGA adapter
 * Analogizer V1.0   [19/05/2024]: Added initial support for Analogizer adapter (RGBS, RGsB, YPbPr, Y/C, SVGA Scandoubler)
+* V1.0.1 [30/05/2024]: Fixed YPbPr video output. Check ✴️ notes before ask support for YPbPr video output.
 
 Adapted to Analogizer by [@RndMnkIII](https://github.com/RndMnkIII) based on **opengateware** Irem M92 Compatible Gateware IP Core.
 
@@ -21,8 +22,11 @@ The core can output RGBS, RGsB, YPbPr, Y/C and SVGA scandoubler (50% scanlines) 
 | RGBS         |  ✅    |
 | RGsB         |  ✅    |
 | YPbPr        |  ✅    |
-| Y/C*         |  ✅    |
+| Y/C*         |  ✴️    |
 | Scandoubler  |  ✅    |
+
+✴️ Y/C support will vary among the different supported games in this core and the specific screen that you use.
+Tested on a JVC PVM In the Hunt is displayed correctly but R-Type Leo not. Using OSSC scaler works well in all games. Using a LG LED TV is not displayed correctly.
 
 * **Analogizer** is responsible for generating the correct encoded Y/C signals from RGB and outputs to R,G pins of VGA port. Also redirects the CSync to VGA HSync pin.
 The required external Y/C adapter that connects to VGA port is responsible for output Svideo o composite video signal using his internal electronics. Oficially
