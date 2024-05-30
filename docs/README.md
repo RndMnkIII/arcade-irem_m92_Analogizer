@@ -21,11 +21,11 @@ The core can output RGBS, RGsB, YPbPr, Y/C and SVGA scandoubler (50% scanlines) 
 | :----------- | :----: |
 | RGBS         |  ✅    |
 | RGsB         |  ✅    |
-| YPbPr        |  ✅    |
-| Y/C*         |  ✴️    |
+| YPbPr        |  ✴️    |
+| Y/C*         |  ✅    |
 | Scandoubler  |  ✅    |
 
-✴️ Y/C support will vary among the different supported games in this core and the specific screen that you use.
+✴️ YPbPr support will vary among the different supported games in this core and the specific screen that you use.
 Tested on a JVC PVM In the Hunt is displayed correctly but R-Type Leo not. Using OSSC scaler works well in all games. Using a LG LED TV is not displayed correctly.
 
 * **Analogizer** is responsible for generating the correct encoded Y/C signals from RGB and outputs to R,G pins of VGA port. Also redirects the CSync to VGA HSync pin.
