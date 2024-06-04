@@ -129,6 +129,10 @@
                       "name": "Y/C NTSC"
                     },
                     {
+                        "value": "0x1000",
+                        "name": "Y/C PAL"
+                    },
+                    {
                       "value": "0x1400",
                       "name": "Scandoubler RGBHV"
                     },
@@ -147,6 +151,10 @@
                     {
                       "value": "0x2C00",
                       "name": "Y/C NTSC,Pocket OFF"
+                    },
+                    {
+                        "value": "0x3000",
+                        "name": "Y/C PAL,Pocket OFF"
                     },
                     {
                       "value": "0x3400",

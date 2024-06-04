@@ -1071,7 +1071,7 @@ wire PALFLAG;
 	localparam [39:0] PAL_PHASE_INC = 40'd121870384219; // ((PAL_REF*2^40) / CLK_VIDEO_PAL)
 
 	// Send Parameters to Y/C Module
-	assign CHROMA_PHASE_INC = NTSC_PHASE_INC; 
+	assign CHROMA_PHASE_INC = (analogizer_video_type == 4'h4) || (analogizer_video_type == 4'hC) ? PAL_PHASE_INC : NTSC_PHASE_INC; 
 	assign PALFLAG = (analogizer_video_type == 4'h4) || (analogizer_video_type == 4'hC); 
     assign CHROMA_ADD = 5'd0; //yc_chroma_add_s;
     assign CHROMA_MULT = 5'd0; //yc_chroma_mult_s;

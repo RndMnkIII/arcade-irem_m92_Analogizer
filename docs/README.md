@@ -12,6 +12,7 @@
 # Irem M92 Compatible Gateware IP Core with support for Analogizer-FPGA adapter
 * Analogizer V1.0   [19/05/2024]: Added initial support for Analogizer adapter (RGBS, RGsB, YPbPr, Y/C, SVGA Scandoubler)
 * V1.0.1 [30/05/2024]: Fixed YPbPr video output. Check ✴️ notes before ask support for YPbPr video output.
+* V1.0.2 [04/06/2024]: Added Y/C PAL video ouput. Tested with Active and Passive Y/C Mike Simone Adapter designs and works.
 
 Adapted to Analogizer by [@RndMnkIII](https://github.com/RndMnkIII) based on **opengateware** Irem M92 Compatible Gateware IP Core.
 
